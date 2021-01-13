@@ -1,0 +1,17 @@
+<html>
+<title>hello world</title>
+<body>
+{% if user.is_authenticated %}
+
+<h2>create blogs</h2>
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{form}}
+<button type=submit>submit</button>
+</form>
+<h3>User is {{request.user}}</h3>
+{% else %}
+<h3>please login first</h3>
+{% endif %}
+</body>
+</html>

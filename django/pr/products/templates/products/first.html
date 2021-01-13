@@ -1,0 +1,41 @@
+{% load static %}
+<html>
+<title>hello world</title>
+<body>
+<h2>my blogs</h2>
+<img src="{% static '/download.png' %}">
+<br>
+<form method="GET" action="/search/">
+    <input name="query" required placeholder="search here">
+    <button type=submit>search</button>
+</form>
+<br>
+    {% if user.is_authenticated %}
+        <a href="/create/"><h3>create</h3></a><br>
+        <a href="/logout/">logout</a><br>
+        <a href="/reset_pass/">reset password</a><br>
+    {% else %}
+        <a href="/login/"<h3>login</h3></a>
+        <a href="/signup/"<h3>signup</h3></a>
+    {% endif %}  
+{% for post in posts %}
+    {{post.title}}<br>
+    {{post.content}}<br>
+    {{post.author}}<br>
+    {{post.date_created}}<br>
+    {{post.date_updated}}<br>
+    {% if post.image %}
+        <img src="{{ post.image.url }}">
+        {% endif %}
+    <a href="/blog/{{post.id}}/">see the blog</a><br>
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <a href="/blog/update/{{post.id}}/">update the blog</a><br>
+            <a href="/blog/delete/{{post.id}}/">delete the blog</a><br>
+        {% endif %}    
+    {% endif %}    
+
+{% endfor %}
+<h3>User is {{request.user}}</h3>
+</body>
+</html>
